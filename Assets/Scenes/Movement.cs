@@ -51,9 +51,12 @@ public class Movement : MonoBehaviour
 
                     transform.eulerAngles = new Vector3(0f, rotationY, 0f);
                 }
-
-                
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            agent.SetDestination(gameObject.transform.position);
         }
     }
 }
