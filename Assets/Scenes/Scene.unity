@@ -429,7 +429,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &342748549 stripped
 Transform:
@@ -983,7 +983,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 68, y: -90, z: 0}
 --- !u!114 &646344185
 MonoBehaviour:
@@ -998,8 +998,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1598750512}
-  toggled: 1
-  smoothness: 0.4
+  followPlayer: 1
+  cameraSpeed: 1
 --- !u!114 &646344186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,7 +1013,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 646344183}
-  zoomSpeed: 20
+  camFOV: 59.5
+  zoomSpeed: 25
 --- !u!114 &646344187
 MonoBehaviour:
   m_ObjectHideFlags: 0

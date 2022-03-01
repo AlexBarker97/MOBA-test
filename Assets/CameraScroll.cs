@@ -5,8 +5,10 @@ using UnityEngine;
 public class CameraScroll : MonoBehaviour
 {
     public Camera cam;
-    private float camFOV;
-    public float zoomSpeed;
+
+    [Range(20, 85)]
+    public float camFOV;
+    public float zoomSpeed = 25;
 
     private float mouseScrollInput;
 

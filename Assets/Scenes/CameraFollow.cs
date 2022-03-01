@@ -6,35 +6,65 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform player;
     private Vector3 cameraOffset;
-    public bool toggled = true;
-
-    [Range(0.01f, 1.0f)]
-    public float smoothness = 0.5f;
+    public bool followPlayer = true;
+    public float cameraSpeed = 1.2f;
+    private float smoothness = 0.5f;
+    private float camFOV;
+    private float scaledCamFOV;
 
     // Start is called before the first frame update
     void Start()
     {
-        cameraOffset = transform.position - player.transform.position; 
+        cameraOffset = transform.position - player.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (toggled == true)
+        float tenPctWidth = Screen.width / 10;
+        float tenPctHeight = Screen.height / 10;
+        float tenPctAv = (tenPctWidth + tenPctHeight) / 2;
+
+        if (followPlayer == true)
         {
+            //PLAYER FOLLOW
             Vector3 newPos = player.position + cameraOffset;
             transform.position = Vector3.Slerp(transform.position, newPos, smoothness);
         }
         else
         {
-            // freecam
+            //FREECAM
+            camFOV = GetComponent<CameraScroll>().camFOV;
+            scaledCamFOV = (camFOV - 10) / 90;
+
+            if (Input.mousePosition.x < tenPctAv)   //CAMERA-LEFT
+            {
+                Vector3 newPos = transform.position - (Vector3.forward * cameraSpeed);
+                transform.position = Vector3.Slerp(transform.position, newPos, scaledCamFOV);
+            }
+            if (Input.mousePosition.x > Screen.width - tenPctAv)    //CAMERA-RIGHT
+            {
+                Vector3 newPos = transform.position + (Vector3.forward * cameraSpeed);
+                transform.position = Vector3.Slerp(transform.position, newPos, scaledCamFOV);
+            }
+            if (Input.mousePosition.y < tenPctAv)   //CAMERA-DOWN
+            {
+                Vector3 newPos = transform.position - (Vector3.left * cameraSpeed);
+                transform.position = Vector3.Slerp(transform.position, newPos, scaledCamFOV);
+            }
+            if (Input.mousePosition.y > Screen.height - tenPctAv)   //CAMERA-UP
+            {
+                Vector3 newPos = transform.position + (Vector3.left * cameraSpeed);
+                transform.position = Vector3.Slerp(transform.position, newPos, scaledCamFOV);
+            }
+
         }
-        if (Input.GetKeyDown(KeyCode.Space) && toggled == true)
+        if (Input.GetKeyDown(KeyCode.Space) && followPlayer == true)
         {
-            toggled = false;
-        } else if (Input.GetKeyDown(KeyCode.Space) && toggled == false)
+            followPlayer = false;
+        } else if (Input.GetKeyDown(KeyCode.Space) && followPlayer == false)
         {
-            toggled = true;
+            followPlayer = true;
         }            
     }
 }
