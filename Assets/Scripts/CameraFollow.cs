@@ -21,8 +21,8 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float pctWidth = Screen.width / 30;
-        float pctHeight = Screen.height / 30;
+        float pctWidth = Screen.width / 40;
+        float pctHeight = Screen.height / 40;
         float tenPctAv = (pctWidth + pctHeight) / 2;
 
         if (followPlayer == true)

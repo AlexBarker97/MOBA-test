@@ -12,6 +12,8 @@ public class HeroCombat : MonoBehaviour
     public float rotateSpeedForAttack;
 
     private Movement moveScript;
+    private Stats statsScript;
+    private Animator anim;
 
     public bool basicAtkIdle = false;
     public bool isHeroAlive;
@@ -21,6 +23,8 @@ public class HeroCombat : MonoBehaviour
     void Start()
     {
         moveScript = GetComponent<Movement>();
+        statsScript = GetComponent<Stats>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -44,11 +48,37 @@ public class HeroCombat : MonoBehaviour
                 {
                     if (performMeleeAttack)
                     {
-                        Debug.Log("Attack The Minion");
+                        StartCoroutine(MeleeAttackInterval());
 
                     }
                 }
             }
         }
+    }
+    IEnumerator MeleeAttackInterval()
+    {
+        performMeleeAttack = false;
+        anim.SetBool("Basic Attack", true);
+
+        yield return new WaitForSeconds(statsScript.attackTime / ((100 + statsScript.attackTime) * 0.01f));
+
+        if(targetedEnemy == null)
+        {
+            anim.SetBool("Basic Attack", false);
+            performMeleeAttack = true;
+        }
+    }
+
+    public void MeleeAttack()
+    {
+        if(targetedEnemy != null)
+        {
+            if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
+            {
+                targetedEnemy.GetComponent<Stats>().health -= statsScript.attackDmg;
+            }
+        }
+
+        performMeleeAttack = true;
     }
 }
