@@ -19,9 +19,10 @@ public class Abilities : MonoBehaviour
 
     [Header("Ability 3")]
     public Image abilityImage3;
-    public float cooldown3 = 5;
+    public float cooldown3 = 15;
     bool isCooldown3 = false;
     public KeyCode ability3;
+    float timeRemaining = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +42,7 @@ public class Abilities : MonoBehaviour
 
     void Ability1()
     {
-        if(Input.GetKey(ability1) && isCooldown1 == false)
+        if (Input.GetKey(ability1) && isCooldown1 == false)
         {
             isCooldown1 = true;
             abilityImage1.fillAmount = 1;
@@ -50,7 +51,7 @@ public class Abilities : MonoBehaviour
         {
             abilityImage1.fillAmount -= 1 / cooldown1 * Time.deltaTime;
 
-            if(abilityImage1.fillAmount <= 0)
+            if (abilityImage1.fillAmount <= 0)
             {
                 abilityImage1.fillAmount = 0;
                 isCooldown1 = false;
@@ -77,11 +78,38 @@ public class Abilities : MonoBehaviour
     }
     void Ability3()
     {
-        if (Input.GetKey(ability3) && isCooldown3 == false)
+        if (Input.GetKey(ability3) && isCooldown3 == false) 
         {
             isCooldown3 = true;
             abilityImage3.fillAmount = 1;
+
+            timeRemaining = 10;
+            GameObject lightGameObject = new GameObject("Player Light Ability");
+            Light lightComp = lightGameObject.AddComponent<Light>();
+            lightComp.intensity = 5;
+            
+            lightGameObject.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 4, 0);
+            lightGameObject.transform.SetParent((GameObject.FindGameObjectWithTag("Player")).transform);
         }
+
+        if (timeRemaining > 0)
+        {
+            if(timeRemaining < 1)
+            {
+                timeRemaining = 0;
+            }
+            else
+            {
+                timeRemaining -= Time.deltaTime;
+            }
+
+        }
+        else if (timeRemaining == 0)
+        {
+            Destroy(GameObject.Find("Player Light Ability"));
+            timeRemaining = -1;
+        }
+
         if (isCooldown3)
         {
             abilityImage3.fillAmount -= 1 / cooldown3 * Time.deltaTime;
