@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     public Transform player;
     private Vector3 cameraOffset;
     public bool followPlayer = true;
-    public float cameraSpeed = 1.2f;
+    public float cameraSpeed = 0.75f;
     private float smoothness = 0.5f;
     private float camFOV;
     private float scaledCamFOV;
